@@ -2,9 +2,7 @@
 using Azure.Messaging.ServiceBus.Administration;
 using AzureServiceBusDemo.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Amqp.Framing;
 using Newtonsoft.Json;
-using System.Reflection;
 using System.Text;
 
 namespace AzureServiceBusDemo.Controllers
@@ -16,7 +14,10 @@ namespace AzureServiceBusDemo.Controllers
         ServiceBusClient client;
         public PubSubController()
         {
-            client = new ServiceBusClient(connectionString);
+            if(connectionString!= "YOUR_CONNECTION_STRING_FROM_AZURE_SERVICE_BUS")
+            {
+                client = new ServiceBusClient(connectionString);
+            }
         }
         public IActionResult Publisher()
         {
@@ -43,9 +44,13 @@ namespace AzureServiceBusDemo.Controllers
         }
         private async void SubscribeModel()
         {
-            await CreateSubsription("MobileApps");
-            await CreateSubsription("IOTDevice");
-            await CreateSubsription("Web");
+            if (connectionString != "YOUR_CONNECTION_STRING_FROM_AZURE_SERVICE_BUS")
+            {
+                await CreateSubsription("MobileApps");
+                await CreateSubsription("IOTDevice");
+                await CreateSubsription("Web");
+            }
+
         }
         private async Task CreateSubsription(string subscriptionName)
         {
