@@ -1,0 +1,57 @@
+﻿<div class="container">
+    @*     <div class="row p-1">
+    <div class="col-1">User</div>
+    <div class="col-5"><input type="text" id="userInput" /></div>
+    </div> *@
+    <div class="row p-1">
+        <div class="col-1">Message</div>
+        <div class="col-5"><input type="text" class="w-100" id="messageInput" /></div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6 text-end">
+            <input type="button" id="sendButton" value="Publish Message" onclick="PublishMsg()" />
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6">
+            <hr />
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+</div>
+<script>
+    function PublishMsg() {
+        if ($('#messageInput').val() == '') {
+            alert('Please enter the message to publish');
+            return;
+        }
+        var postData = {
+            msg: $('#messageInput').val(),
+        };
+
+        $.ajax({
+            url: "/PubSub/PublishMsg",
+            type: "POST",
+            beforeSend: function () {
+                $('#overlay').show();
+            },
+            //contentType: "application/json",
+            data: postData,
+            success: function (response) {
+                if (response.status == 'success') {
+                    alert('Message Published');
+                    $('#messageInput').val('');
+                    $('#overlay').hide();
+                }                
+            },
+            error: function (xhr, status, error) {
+                console.error("Error: " + error);
+                $('#overlay').hide();
+            }
+        });
+    }
+</script>

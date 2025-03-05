@@ -1,0 +1,73 @@
+﻿<div class="container">
+    @*     <div class="row p-1">
+    <div class="col-1">User</div>
+    <div class="col-5"><input type="text" id="userInput" /></div>
+    </div> *@
+    <div class="row p-1">
+        <div class="col-3">Select Environment </div>
+        <div class="col-3">
+            <select id="env" style="width:100%;" onchange="$('#messagesList').html('');">
+                <option value="">--Select--</option>
+                <option value="MobileApps">Mobile Apps</option>
+                <option value="IOTDevice">IOT Device</option>
+                <option value="Web">Web</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6 text-end">
+            <input type="button" value="Check Message" onclick="CheckSubscribedMsg()" />
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6">
+            <hr />
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+</div>
+<script>
+    function CheckSubscribedMsg() {
+        if ($('#env').val() == '') {
+            alert('Please select the value');
+            return;
+        }
+        var postData = {
+            env: $('#env').val(),
+        };
+
+        $.ajax({
+            url: "/PubSub/CheckSubscribedMsg",
+            type: "POST",
+            //contentType: "application/json",
+            data: postData,
+            beforeSend: function () {
+                $('#overlay').show();
+                $('#messagesList').html('');
+            },
+            success: function (response) {
+                $('#overlay').hide();
+                if (response != null && response.length > 0) {
+                    var html = '';
+                    $.each(response, function (i, item) {
+                        html = html + '<li>' + item.message + '</li>'
+                        var li = document.createElement("li");
+                    });
+                    $('#messagesList').html(html);
+                }
+                else {
+                    alert('All messages catched up');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error: " + error);
+                $('#overlay').hide();
+            }
+        });
+    }
+</script>
