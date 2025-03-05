@@ -13,4 +13,5 @@ To run the project please follow the following instructions -
 I have direclty mentioned the topic name and connection string in controller itself but it will be a good if you read from appSetting.
 
 Thanks,
+
 V Sweta
