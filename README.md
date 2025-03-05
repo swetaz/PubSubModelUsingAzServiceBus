@@ -1,5 +1,4 @@
 # Implementing Publisher Subscriber Model Using Azure Service Bus
-#PubSubModelUsingAzServiceBus
 
 This example is a simple explantion on Publisher Subscriber model using Azure service bus - 
 
