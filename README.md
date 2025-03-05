@@ -3,6 +3,7 @@
 This example is a simple explantion on Publisher Subscriber model using Azure service bus - 
 
 Publisher - Entity which publishes or send a message to a topic or channel.
+
 Subcriber - Entity which subscribes or receives messages from a topic or channel.
 
 To run the project please follow the following instructions - 
